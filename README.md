@@ -2,39 +2,52 @@ Salaryinfo-API sirve como una aplicación proof-of-concept para demostrar la ver
 
 La funcionalidad de la API se ha modelado para la acquisición y almacenamiento de datos concernientes a hojas de nómina, permitiendo a los consumidores de la API la utilización de métodos GET y POST para la interacción con una base de datos de prueba siguiendo la filosofía de la arquitectura REST. 
 ___
-## 1. Configuración
+## 1. Configuraciones para desplegar la aplicación
 
 Las instrucciones siguientes están destindads a plataformas Mac y Linux, aunque el proceso de instalación de las dependencias y configuración del repositorio es bastante similar en Windows.
 
-Serciorese de tenere Python3 instalado en su sistema, para comprobar que este es el caso, basta con abrir su terminal de comandos e introducir el comando ```Python3 -V```. La salida de la consola debe ser algo similar a ``Python 3.8.6```. De no ser así, visite la web oficial de [Python](https://www.python.org/downloads/) y siga las instrucciones para la instalación en su sistema operativo. 
+Serciorese de tenere Python3 instalado en su sistema, para comprobar que este es el caso, basta con abrir su terminal de comandos e introducir el comando ```Python3 -V```. La salida de la consola debe ser algo similar a ```Python 3.8.6```. De no ser así, visite la web oficial de [Python](https://www.python.org/downloads/) y siga las instrucciones para la instalación en su sistema operativo. 
 
 Con Python instalado en su sistema, siga las siguientes instrucciones para configurar las dependencias y el repositorio:
 
 - 1. Clone el rep el [repositorio](git@github.com:GilsonFrias/salaryinfo-api.git) para esto copie el comando siguiente y péguelo en su terminal de comandos:
-
-	<center>```git clone git@github.com:GilsonFrias/salaryinfo-api.git```</center>
+    
+```bash
+git clone git@github.com:GilsonFrias/salaryinfo-api.git
+```
 	
 - 2. Ingrese al directorio principal del repositorio utilizando el comando:
 	
-	<center>```cd salaryinfo-api```</center>
+```bash
+cd salaryinfo-api
+```
 
 - 3. Proceda a crear un medio virtual que servirá como una sandbox para contener las dependencias de Python necesarias:
 
-	<center>```python3 -m venv env```</center>
+```bash
+python3 -m venv env
+```
 	
 - 4. Si el comando anterior fue ejecutado sin complicaciones, deberá ahora de ser capaz de visualizar un nuevo directorio *env* en su directorio *salaryinfo-api*. Este es el directorio del medio virtual recién creado. Pase a activarlo utilizando el siguiente comando:
 
-	<center>```source env/bin/activate```</center>
+```bash
+source env/bin/activate
+```
 
 - 5. Ahora pase a instalar las dependencias de Python necesarias, las mismas se encuentran registradas en el archivo requirements.txt. Utilizando pip en su consola de comandos, copie y pegue el comando:
 
-	<center>``pip install -r requirements.txt```</center>
+```bash
+pip install -r requirements.txt
+```
+    
 - 6. Finalmente, inicialice el servidor de Django con el siguiente comando:
 
-	<center>``python manage.py runserver```</center>`
+```bash
+python manage.py runserver
+```
 
 
-Con el servidor en funcionamiento, visite la dirección http://127.0.0.1:8000/ en su navegador web para interactuar con la API. Adicionalmente, es recomendable utilizar el software [Postman](https://www.postman.com/product/api-client/)	 que facilita la emisión de request POST y GET y el monitoreo del comportamiento de la API. 
+Con el servidor en funcionamiento, visite la dirección [http://127.0.0.1:8000/](http://127.0.0.1:8000/) en su navegador web para interactuar con la API. Adicionalmente, es recomendable utilizar el software [Postman](https://www.postman.com/product/api-client/)	 que facilita la emisión de request POST y GET y el monitoreo del comportamiento de la API. 
 
 
 ## 2. Interactuando con la API
