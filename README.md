@@ -1,6 +1,13 @@
 Salaryinfo-API sirve como una aplicación proof-of-concept para demostrar la versatilidad del framework de desarrollo web [Django](https://www.djangoproject.com/) y su paquete de extención para aplicaciones REST [Django REST](https://www.django-rest-framework.org/). 
 
 La funcionalidad de la API se ha modelado para la acquisición y almacenamiento de datos concernientes a hojas de nómina, permitiendo a los consumidores de la API la utilización de métodos GET y POST para la interacción con una base de datos de prueba siguiendo la filosofía de la arquitectura REST. 
+
+
+<div style="text-align:center">
+    <img src='rsz_api.png', right=10></img>
+</div>
+
+
 ___
 ## 1. Configuraciones para desplegar la aplicación
 
