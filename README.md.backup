@@ -10,10 +10,10 @@ Serciorese de tenere Python3 instalado en su sistema, para comprobar que este es
 
 Con Python instalado en su sistema, siga las siguientes instrucciones para configurar las dependencias y el repositorio:
 
-- 1. Clone el rep el [repositorio](git@github.com:GilsonFrias/salaryinfo-api.git) para esto copie el comando siguiente y péguelo en su terminal de comandos:
+- 1. Clone el rep el [repositorio](https://github.com/GilsonFrias/salaryinfo-api.git) para esto copie el comando siguiente y péguelo en su terminal de comandos:
     
 ```bash
-git clone git@github.com:GilsonFrias/salaryinfo-api.git
+git clone https://github.com/GilsonFrias/salaryinfo-api.git
 ```
 	
 - 2. Ingrese al directorio principal del repositorio utilizando el comando:
