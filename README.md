@@ -62,7 +62,7 @@ Con el servidor en funcionamiento, visite la dirección [http://127.0.0.1:8000/]
 Las operaciones efectuadas con la API se realizan por HTTP. Los usuarios de la API deben utilizar métodos GET para el acceso a datos y métodos POST para la creación de nuevas entidades en la base de datos. Los verbos HTTP son siempre aplicados siguiendo la URL en la que está corriendo el servidor de Django, sin utilizar rutas intermedias. La siguiente tabla demuestra las diferentes funcionalidades de la API tomando en cuenta los diferentes parámetros HTTP necesarios para comunicarse de manera efectiva con la API. 
 
 
-| Método HTTP/ Parámetro	| Acción             |	Example	       |Result  | 
+| Método HTTP/ Parámetro	| Acción             |	Ejemplo	       |Resultado  | 
 | --------- | ------------------ | --------------- |------- |
 | GET/ id_empleado	    | Retorna datos empleado con id_empleado | ?id_empleado=4	   | Retorna fila en base de datos indexada a id_empleados=4|
 | GET/ nombre	| Retorna todas las instancias con nombre=nombre	 | ?nombre=Nick |Retorna todas las filas en la base de datos con el campo nombre=Nick|
@@ -72,5 +72,68 @@ Las operaciones efectuadas con la API se realizan por HTTP. Los usuarios de la A
 
 La respuesta de la API es siempre suministrada en formato JSON. El perfil fiscal asociado a una nueva entrada en la base de datos está definido por 4 variables calculadas con el salario bruto suministrado en el método POST: salario-libre-imp, impuestos, aportes-seg-soc y salario-neto. Dichas variables son asignadas a campos específicos dentro de la base de datos una vez creada la nueva entidad.
 	
+A continuación se demuestra cómo interactuar con la API desde la términal de comandos de Linux por medio de la herramienta cURL. La respuesta recibida es concatenada con el módulo [json.tool](https://docs.python.org/3/library/json.html#module-json.tool) de Python para así obtener una representación pretty-printed de la respuesta JSON. 
+
+ 
+Los métodos GET son ejecutados sin pasar ningun tipo de flag al comando cURL, por ejemplo
+	
+```bash
+curl http://127.0.0.1:8000/?id_empleado=10 | python3 -m json.tool
+```
+
+proporcionará como resultado
+
+```JSON
+[
+    {
+        "id_empleado": 10,
+        "nombre": "Liz",
+        "apellido": "Mar",
+        "salario": "92400.65",
+        "salario_libre_imp": "11000.00",
+        "impuestos": "35240.39",
+        "aportes_seg_soc": "11068.89",
+        "salario_neto": "46091.37"
+    }
+]
+```
+
+La ejecución de POST requests puede conseguirse de manera similar usando los flags -X POST para entrar al modo de ejecución de POST requests y también el flat -F delante de cada campo identificado como un par key-value solicitado por la API. Por ejemplo,
 
 
+```bash
+curl -X POST -F 'nombre=Mike' -F 'apellido=Tyson' -F 'salario=250000' http://127.0.0.1:8000/ | python3 -m json.tool
+```
+
+Pedirá a la API la creación de una nueva entidad empleado en la base de datos con el los parámetros nombre=Mike, apellido=Tyson y salario=250000.00. Tras ejecutar el comando, la API responderá con
+
+```JSON
+{
+    "id_empleado": 24,
+    "nombre": "Mike",
+    "apellido": "Tyson",
+    "salario": "250000.00",
+    "salario_libre_imp": "0.00",
+    "impuestos": "177000.00",
+    "aportes_seg_soc": "78132.80",
+    "salario_neto": "-5132.80"
+}
+```
+
+Señalando que el nuevo empleado fue añadido exitosamente en la base de datos y que además su perfil fiscal fue computado y de igual manera almacenado.
+
+Al tratar de introducir parámetros erróneos en los GET y POST requests la API tratará de responder con un mensaje de error encapsulado en un paquete JSON. Esto se puede visualizar en el siguiente ejemplo, en donde se trata de enviar un POST request obviando dos de los parámetros necesarios para crear una nueva entrada en la base de datos
+
+```bash
+curl -X POST -F 'nombre=Tiger' -F 'apellido=Woods' http://127.0.0.1:8000/ | python3 -m json.tool
+```
+
+Resultando en la respuesta JSON
+
+```JSON
+{
+    "salario": [
+        "This field is required."
+    ]
+}
+```
