@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0)5^r1if8@$z_90h)t=3%n3@v6oll=7&$l5b!(u_@wx_!4@sd2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['testserver', '127.0.0.1']
 
 
 # Application definition
@@ -123,7 +123,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#Rest framework
+REST_FRAMEWORK = {
+	'EXCEPTION_HANDLER': ('salaryinfo_api.empleados.exceptions.my_exception_handler'),
+}
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
