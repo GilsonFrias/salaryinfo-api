@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 '''
+Clase ModeloTributario
+La clase contiene los métodos necesarios para el cálculo del perfil tributario (compuesto esencialmente por los montos de aportes en impuestos y aportes a la seguridad social) a partir del salario bruto suministrado.
 '''
 import json
 import os
@@ -19,6 +21,17 @@ class ModeloTributario(object):
 		self.tope_exencion = self.contenido_json['tope-exencion']
 
 	def calcula_perfil_fiscal(self, salario):
+		'''
+		Cálcula el perfil fiscal en base a los parámetros contenidos en self.contenido_json. 
+		args:
+			salario: float, el salario bruto 
+		retorna:
+			_: tuple, 
+				 prestacion_libre: Porción del salario neto exenta de impuestos.
+				 impuestos: Deducciones por pago de impuestos
+				 aportes_ss: Deducciones por pago seguridad social
+				 salario_neto: salario-(impuestos+aportes_ss) 
+		'''
 		try:
 			salario = float(salario)
 		except ValueError:
@@ -47,6 +60,7 @@ class ModeloTributario(object):
 		
 		#3. Cálculo salario neto despues de deducciones
 		salario_neto = salario - impuestos - aportes_ss
+		salario_neto = max(salario_neto, 0)
 
 		#Keep all numbers with a precision of 2 decimal points
 		prestacion_libre = round(prestacion_libre, 2)
@@ -57,6 +71,14 @@ class ModeloTributario(object):
 		return (prestacion_libre, impuestos, aportes_ss, salario_neto)
 
 	def calcula_deducciones(self, salario, margenes, tasas):
+		'''
+		Calcula el monto a descontar a salario en base a los margenes
+		de deducciones y las tasas de descuento correspondientes.
+		args:
+			salario: float, el salario bruto
+			margenes: list, el set de márgenes que definen la escala de descuentos
+			tasas: list, el set de factores porcentuales que definen los descuentos para cada margen en margenes 
+		'''
 		n = len(margenes)
 		deducciones = 0.0
 		for i in range(n, 0, -1):

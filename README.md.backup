@@ -3,11 +3,6 @@ Salaryinfo-API sirve como una aplicación proof-of-concept para demostrar la ver
 La funcionalidad de la API se ha modelado para la acquisición y almacenamiento de datos concernientes a hojas de nómina, permitiendo a los consumidores de la API la utilización de métodos GET y POST para la interacción con una base de datos de prueba siguiendo la filosofía de la arquitectura REST. 
 
 
-<div style="text-align:center">
-    <img src='rsz_api.png', right=10></img>
-</div>
-
-
 ___
 ## 1. Configuraciones para desplegar la aplicación
 
@@ -109,15 +104,16 @@ Pedirá a la API la creación de una nueva entidad empleado en la base de datos 
 
 ```JSON
 {
-    "id_empleado": 24,
+    "id_empleado": 28,
     "nombre": "Mike",
     "apellido": "Tyson",
-    "salario": "250000.00",
-    "salario_libre_imp": "0.00",
-    "impuestos": "177000.00",
-    "aportes_seg_soc": "78132.80",
-    "salario_neto": "-5132.80"
+    "salario": "110000.00",
+    "salario_libre_imp": "6000.00",
+    "impuestos": "46800.00",
+    "aportes_seg_soc": "13532.80",
+    "salario_neto": "49667.20"
 }
+
 ```
 
 Señalando que el nuevo empleado fue añadido exitosamente en la base de datos y que además su perfil fiscal fue computado y de igual manera almacenado.

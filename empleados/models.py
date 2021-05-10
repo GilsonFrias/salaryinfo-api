@@ -2,6 +2,9 @@ from django.db import models
 import datetime
 
 #Create the 'empleados' object representation with Django's Object Relational Mapping 
+'''
+La clase Empleado contiene el modelo que será aplicado en la base de datos para definir, almacenar y recuperar los registros de empleados. 
+'''
 class Empleado(models.Model):
 	id_empleado = models.AutoField(primary_key=True)
 	nombre = models.CharField(max_length=15)
