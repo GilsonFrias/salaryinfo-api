@@ -1,8 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-#from rest_framework.decorators import api_view, renderer_classes
-#from rest_framework.renderers import JSONRenderer
-from rest_framework.views import exception_handler
+from rest_framework.renderers import JSONRenderer
 
 from .serializers import EmpleadoSerializer
 from .models import Empleado
@@ -15,7 +13,7 @@ class HomeView(APIView):
 	Salaryinfo-API
 	REST API desarrollada en Django para la transacción de información financiera
 	'''
-
+	
 	#HomeView es una subclase de la clase APIView, cuya misión es interconectar 
 	#las URLs con los HTTP métodos siguiendo la architectura REST.
 
@@ -24,12 +22,11 @@ class HomeView(APIView):
 
 	def get(self, request):
 		#Maneja los GET requests y suministra la respuesta HTTP apropiada
-
+		
 		#Extrae los argumentos recibidos 
 		request_dict = request.query_params
 		keys = request_dict.keys()
-		print(keys)
-		
+	
 		#Extrae las filas apropiadas desde la base de datos de acuerdo a los 
 		#pares key-value obtenidos en el método GET
 		if 'lista' in keys:
@@ -131,28 +128,12 @@ class HomeView(APIView):
 		else:
 			return Response(serializer.errors)
 
-'''
-def error_400(request, *arg, **argv):
-	return Response({'Error':'400 Bad request'})
 
-def error_403(request, *arg, **argv):
-	return Response({'Error':'403 Forbidden'})
+def error_404(request, exception):
+	'''
+	Clase para el manejo de la respuesta JSON a errores 4040
+	'''
+	#TODO:
+		#1. Implementar apropiadamente con la clase exception_handler
+	return JSONRenderer({"Error":"NotFound"})
 
-def error_404(request, *arg, **argv):
-	return Response({'Error':'404 Not Found'})
-
-@api_view(('GET',))
-@renderer_classes((JSONRenderer))
-def error_500(request, *arg, **argv):
-	return Response({'Error':'500 Internal Server Error'})
-'''
-
-'''
-def custom_execption_handler(exc, context):
-	response = exception_handler(exc, context)
-
-	if reponse is not None:
-		response.data['status_code'] = response.status_code
-
-	return response
-'''

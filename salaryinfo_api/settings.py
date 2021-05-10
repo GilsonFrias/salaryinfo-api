@@ -124,9 +124,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #Rest framework
-REST_FRAMEWORK = {
-	'EXCEPTION_HANDLER': ('salaryinfo_api.empleados.exceptions.my_exception_handler'),
-}
+#REST_FRAMEWORK = {
+#	'EXCEPTION_HANDLER': 'except.exception_handler.custom_exception_handler',
+#}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

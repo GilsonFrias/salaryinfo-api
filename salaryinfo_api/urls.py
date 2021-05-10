@@ -16,16 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from empleados.views import HomeView
-from empleados.exceptions import my_exception_handler
 
 urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
 ]
 
-#handler400 = 'rest_framework.exceptions.bad_request'
-#'empleados.exceptions.my_exception_handler'#'empleados.views.error_400'
-#handler403 = 'empleados.views.error_403'
-#handler404 = 'empleados.views.error_404'
-#handler500 = my_exception_handler.as_view()#'rest_framework.exceptions.server_error' 
-#handler500 = 'empleados.exceptions.my_exception_handler'#'empleados.views.custom_exec_handler'
+handler400 = 'rest_framework.exceptions.bad_request'
+handler404 = 'empleados.views.error_404'
+handler500 = 'rest_framework.exceptions.server_error' 
