@@ -30,9 +30,7 @@ class HomeView(APIView):
 		#Extrae las filas apropiadas desde la base de datos de acuerdo a los 
 		#pares key-value obtenidos en el método GET
 		if 'lista' in keys:
-			print('on lista')
 			query = Empleado.objects.all()
-			print(query)
 		elif ('nombre' in keys) and ('apellido' in keys):
 			nombre_ = request_dict['nombre']
 			apellido_ = request_dict['apellido']
@@ -154,7 +152,6 @@ class HomeView(APIView):
 					draft_request['impuestos'] = perfil[1]
 					draft_request['aportes_seg_soc'] = perfil[2]
 					draft_request['salario_neto'] = perfil[3]
-					draft_request['edad'] = None
 				else:
 					return Response({'Error':'Por favor incluya solo números positivos y el punto decimal en el parámetro salario'}) 	
 			except KeyError:
