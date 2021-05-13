@@ -30,7 +30,9 @@ class HomeView(APIView):
 		#Extrae las filas apropiadas desde la base de datos de acuerdo a los 
 		#pares key-value obtenidos en el método GET
 		if 'lista' in keys:
+			print('on lista')
 			query = Empleado.objects.all()
+			print(query)
 		elif ('nombre' in keys) and ('apellido' in keys):
 			nombre_ = request_dict['nombre']
 			apellido_ = request_dict['apellido']
@@ -59,9 +61,23 @@ class HomeView(APIView):
 			#para el campo id_empleado.
 			id_empleado_ = request_dict['id_empleado']
 			if id_empleado_.isnumeric():
-				query = Empleado.objects.filter(id_empleado=id_empleado_)
+				#query = Empleado.objects.filter(id_empleado=id_empleado_)
+				return Response({'Error':'Por favor solo utilice números enteros positivos en id_empleado'})
 			else:
 				return Response({'Error':'Por favor solo utilice números enteros positivos en id_empleado'})
+		elif 'edad' in keys:
+			edad_ = request_dict['edad']
+			'''
+			if edad_.isnumeric():
+				edad_ = str(edad_)
+				query = Empleado.objects.filter(edad=edad_)
+			'''
+			if edad_.isalpha():
+				query = Empleado.objects.filter(id_empleado=2)
+				#query = Empleado.objects.filter(edad=edad_)
+			else:
+			
+				return Response({'Error': 'Utilice números enteros y strings en el campo edad'})
 		else:
 			#Retorna una query correspondiente a un diccionario vacío 
 			return Response({'':''})
@@ -73,6 +89,22 @@ class HomeView(APIView):
 
 		#Despacha la data en formato JSON
 		if data:
+			#Si alguna de las métricas fiscales es None, recalcula las métricas
+						
+			modelo_tributario = ModeloTributario()
+			for i in range(len(data)):
+				sal_libre_imp = data[i]['salario_libre_imp']
+				imp = data[i]['impuestos']
+				apt_seg_soc = data[i]['aportes_seg_soc']
+				#if not sal_libre_imp or not imp or not apt_seg_soc:
+				perfil = modelo_tributario.calcula_perfil_fiscal(data[i]['salario'])
+					
+				data[i]['salario_libre_imp'] = perfil[0]
+				data[i]['impuestos'] = perfil[1]
+				data[i]['aportes_seg_soc'] = perfil[2]
+				data[i]['salario_neto'] = perfil[3]	
+					
+				
 			return Response(data)
 		else:
 			return Response({'':''}) 
@@ -94,6 +126,15 @@ class HomeView(APIView):
 				print('[Excepción] :: no pudo extraerse campo en POST request')
 				return Response({'Error':'Parámetros (nombre, apellido) invalidos'})
 
+		if 'edad' in draft_request.keys():
+			try:
+				edad = draft_request['edad']
+				edad = str(edad)
+			except KeyError:
+				return Response({"Error":"No pudo extraerse campo edad"})
+		else:
+			edad = None
+
 		#Verifica si el salario fue pasado entre los pares key-value del POST request
 		if 'salario' in draft_request.keys():
 			modelo_tributario = ModeloTributario()
@@ -113,6 +154,7 @@ class HomeView(APIView):
 					draft_request['impuestos'] = perfil[1]
 					draft_request['aportes_seg_soc'] = perfil[2]
 					draft_request['salario_neto'] = perfil[3]
+					draft_request['edad'] = None
 				else:
 					return Response({'Error':'Por favor incluya solo números positivos y el punto decimal en el parámetro salario'}) 	
 			except KeyError:
@@ -124,7 +166,7 @@ class HomeView(APIView):
 			#Si todos los campos cumplen con las condiciones de validez, almacénalos y emite 
 			#un HTTP response con una representación JSON de los mismos.
 			serializer.save()
-			return Response(serializer.data) 
+			return Response(draft_request) 
 		else:
 			return Response(serializer.errors)
 

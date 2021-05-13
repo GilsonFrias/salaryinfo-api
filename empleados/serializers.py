@@ -8,5 +8,5 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 		fields = [
 			'id_empleado', 'nombre', 'apellido', 'salario',
 			'salario_libre_imp', 'impuestos', 'aportes_seg_soc',
-			'salario_neto'
+			'salario_neto', 'edad'
 		]
