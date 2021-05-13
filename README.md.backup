@@ -8,11 +8,11 @@ ___
 
 Las instrucciones siguientes están destindads a plataformas Mac y Linux, aunque el proceso de instalación de las dependencias y configuración del repositorio es bastante similar en Windows.
 
-Serciorese de tenere Python3 instalado en su sistema, para comprobar que este es el caso, basta con abrir su terminal de comandos e introducir el comando ```Python3 -V```. La salida de la consola debe ser algo similar a ```Python 3.8.6```. De no ser así, visite la web oficial de [Python](https://www.python.org/downloads/) y siga las instrucciones para la instalación en su sistema operativo. 
+Cerciorese de tenere Python3 instalado en su sistema, para comprobar que este es el caso, basta con abrir su terminal de comandos e introducir el comando ```Python3 -V```. La salida de la consola debe ser algo similar a ```Python 3.8.6```. De no ser así, visite la web oficial de [Python](https://www.python.org/downloads/) y siga las instrucciones para la instalación en su sistema operativo. 
 
 Con Python instalado en su sistema, siga las siguientes instrucciones para configurar las dependencias y el repositorio:
 
-- 1. Clone el rep el [repositorio](https://github.com/GilsonFrias/salaryinfo-api.git) para esto copie el comando siguiente y péguelo en su terminal de comandos:
+- 1. Clone el [repositorio](https://github.com/GilsonFrias/salaryinfo-api.git) para esto copie el comando siguiente y péguelo en su terminal de comandos:
     
 ```bash
 git clone https://github.com/GilsonFrias/salaryinfo-api.git
@@ -100,7 +100,7 @@ La ejecución de POST requests puede conseguirse de manera similar usando los fl
 curl -X POST -F 'nombre=Mike' -F 'apellido=Tyson' -F 'salario=250000' http://127.0.0.1:8000/ | python3 -m json.tool
 ```
 
-Pedirá a la API la creación de una nueva entidad empleado en la base de datos con el los parámetros nombre=Mike, apellido=Tyson y salario=250000.00. Tras ejecutar el comando, la API responderá con
+Pedirá a la API la creación de una nueva entidad empleado en la base de datos con el los parámetros nombre=Mike, apellido=Tyson y salario=110000.00. Tras ejecutar el comando, la API responderá con
 
 ```JSON
 {
