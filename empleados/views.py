@@ -59,8 +59,7 @@ class HomeView(APIView):
 			#para el campo id_empleado.
 			id_empleado_ = request_dict['id_empleado']
 			if id_empleado_.isnumeric():
-				#query = Empleado.objects.filter(id_empleado=id_empleado_)
-				return Response({'Error':'Por favor solo utilice números enteros positivos en id_empleado'})
+				query = Empleado.objects.filter(id_empleado=id_empleado_)
 			else:
 				return Response({'Error':'Por favor solo utilice números enteros positivos en id_empleado'})
 		elif 'edad' in keys:
@@ -70,9 +69,9 @@ class HomeView(APIView):
 				edad_ = str(edad_)
 				query = Empleado.objects.filter(edad=edad_)
 			'''
-			if edad_.isalpha():
-				query = Empleado.objects.filter(id_empleado=2)
-				#query = Empleado.objects.filter(edad=edad_)
+			if edad_.isalpha() or edad_.isnumeric():
+				#query = Empleado.objects.filter(id_empleado=2)
+				query = Empleado.objects.filter(edad=edad_)
 			else:
 			
 				return Response({'Error': 'Utilice números enteros y strings en el campo edad'})
