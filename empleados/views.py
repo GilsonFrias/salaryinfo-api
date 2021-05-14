@@ -26,32 +26,42 @@ class HomeView(APIView):
 		#Extrae los argumentos recibidos 
 		request_dict = request.query_params
 		keys = request_dict.keys()
+
+		table_name = 'empleados_empleado'
 	
 		#Extrae las filas apropiadas desde la base de datos de acuerdo a los 
 		#pares key-value obtenidos en el método GET
 		if 'lista' in keys:
-			query = Empleado.objects.all()
+			#query = Empleado.objects.all()
+			#Hagámos la query utilizando raw SQL desde la tabla empleados_empleado
+			sql_query = ' '.join(['SELECT * FROM', table_name])
+			query = Empleado.objects.raw('SELECT * FROM empleados_empleado')
 		elif ('nombre' in keys) and ('apellido' in keys):
 			nombre_ = request_dict['nombre']
 			apellido_ = request_dict['apellido']
 			if nombre_.isalpha() and apellido_.isalpha():
+				'''
 				query = Empleado.objects.filter(
 						nombre=nombre_
 					).filter(
 						apellido=apellido_
 					)
+				'''
+				query = Empleado.objects.raw('SELECT * FROM empleados_empleado WHERE nombre = %s', [nombre_])
 			else:
 				return Response({'Error':'Por favor incluya solo carácteres alphabéticos en los campos nombre y apellido'})
 		elif 'nombre' in keys:
 			nombre_ = request_dict['nombre']
 			if nombre_.isalpha():
-				query = Empleado.objects.filter(nombre=nombre_)
+				#query = Empleado.objects.filter(nombre=nombre_)
+				query = Empleado.objects.raw('SELECT * FROM empleados_empleado WHERE nombre = %s', [nombre_]) 
 			else:
 				return Response({'Error':'Por favor incluya solo carácteres alphabéticos en el campo nombre'})
 		elif 'apellido' in keys:
 			apellido_ = request_dict['apellido']
 			if apellido_.isalpha():
-				query = Empleado.objects.filter(apellido=apellido_)
+				#query = Empleado.objects.filter(apellido=apellido_)
+				query = Empleado.objects.raw('SELECT * FROM empleados_empleado WHERE apellido = %s', [apellido_])
 			else:
 				return Response({'Error':'Por favor incluya solo carácteres alphabéticos en el campo apellido'})
 		elif 'id_empleado' in keys:
@@ -59,7 +69,8 @@ class HomeView(APIView):
 			#para el campo id_empleado.
 			id_empleado_ = request_dict['id_empleado']
 			if id_empleado_.isnumeric():
-				query = Empleado.objects.filter(id_empleado=id_empleado_)
+				#query = Empleado.objects.filter(id_empleado=id_empleado_)
+				query = Empleado.objects.raw('SELECT * FROM empleados_empleado WHERE id_empleado = %s', [id_empleado_])
 			else:
 				return Response({'Error':'Por favor solo utilice números enteros positivos en id_empleado'})
 		elif 'edad' in keys:
@@ -70,8 +81,8 @@ class HomeView(APIView):
 				query = Empleado.objects.filter(edad=edad_)
 			'''
 			if edad_.isalpha() or edad_.isnumeric():
-				#query = Empleado.objects.filter(id_empleado=2)
-				query = Empleado.objects.filter(edad=edad_)
+				#query = Empleado.objects.filter(edad=edad_)
+				query = Empleado.objects.raw('SELECT * FROM empleados_empleado WHERE edad = %s', [edad_])
 			else:
 			
 				return Response({'Error': 'Utilice números enteros y strings en el campo edad'})
@@ -83,7 +94,8 @@ class HomeView(APIView):
 		#en el formato adecuado para ser despachados 
 		serializer = EmpleadoSerializer(query, many=True)
 		data = serializer.data
-
+		print('[DEBUGGING] :: Data serializada desde la base de datos:')
+		print(serializer.data)
 		#Despacha la data en formato JSON
 		if data:
 			#Si alguna de las métricas fiscales es None, recalcula las métricas
